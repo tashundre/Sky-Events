@@ -225,7 +225,7 @@ def main():
 
     # Merge and sort for any downstream actions (notify/export/etc.)
     combined = (all_events + iss_events)
-    combined.sort(key=lamda e: e["start"])
+    combined.sort(key=lambda e: e["start"])
 
     # --- Export .ics if asked ---
     if args.export_ics:
