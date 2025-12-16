@@ -24,31 +24,41 @@ python -m venv .venv
 **requirements.txt**
 ```powershell
 pip install -r requirements.txt
+```  
+
+Create a .env file in the project root folder (this file is ignored by git) a safe template exists called .env.example:
+```env
+N2YO_API_KEY=YOUR_REAL_KEY_HERE
 ```
 
 ## N2YO API Key
 1. Create free account: https://www.n2yo.com/api/
-2. Copy your key, then set it (persists across sessions)
-~~~powershell
-setx N2YO_API_KEY "YOUR_REAL_KEY"
-~~~
-3. Open a new PowerShell, activate venv, verfiy:
-~~~powershell
-echo $env:N2YO_API_KEY
-~~~
-# Usage (config.toml)
+2. Copy your API key
+3. Put it in .env as shown above  
+
+# Usage (config.toml) - Open config file and edit vaules according to you prefrences. 
 [location]  
 lat = 29.6516  
 lon = -82.3248  
 alt = 50  
 
-[defaults]
+[defaults]  
 days = 30  
 notify = false  
 export_ics = ""  
 min_elev = 10  
 
-# Usage (CLI)
+Now you can run with no location flags  
+```powershell
+python sky_events.py
+```
+CLI flags always override config:  
+```powershell
+python sky_events.py --days 10 --notify
+pythin sky_events.py --days 60 --export-ics sky_events.ics
+```
+
+# Usage (Just CLI Flags)
 ~~~powershell
 # Example (Gainesville, Florida)
 python sky_events.py --lat 29.6516 --lon -82.3248 --alt 50 --days 30
@@ -60,8 +70,7 @@ python sky_events.py --lat 29.6516 --lon -82.3248 --alt 50 --days 10 --notify
 Export to .ics for your calendar  
 ~~~powershell
 python sky_events.py --lat 29.6516 --lon -82.3248 --alt 50 --days 10 --export-ics
-~~~
-
+~~~  
 
 ## Windows Notifications (winotify)  
 This project uses winotify for native Windows toasts.  
@@ -117,6 +126,7 @@ MIT
 
 
     
+
 
 
 
