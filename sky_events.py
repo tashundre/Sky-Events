@@ -8,7 +8,7 @@ Goal Today: a tiny CLI that prints a pastel banner and echoes your inputs.
 from __future__ import annotations
 import argparse 
 import datetime as dt 
-from dateutil import tz 
+from dateutil import tz
 from colorama import init as color_init, Fore, Style
 import requests
 from ics import Calendar
@@ -16,7 +16,15 @@ from ics import Calendar, Event
 import pytz
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
+# toml support, older versions use tomli
+try: 
+    import tomllib
+except Exception:
+    tomllib = None
+    
+load_dotenv()
 
 # --- Windows notifications (winotify only) ---
 try:
