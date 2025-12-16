@@ -106,15 +106,18 @@ python notify_test.py
 * Times converted to your local timezone
 
 # Project Status
-Built  
-1. **Heads-up window** ```--soon HOURS``` (show/notify only actionable events)
-2. **Task Schedular helper** ```--install-task``` (daily 7pm run)
-3. **Config + secrets** (```config.toml``` + ```.env```) for coords/defaults and keys
-4. **Weather gate** (skip alerts on fully overcast nights)
-5. **Report mode** ```--report``` (pretty single-screen summary)
-6. **Starlink (opt-in)** ```--starlink```
-7. Email/SMS alerts (Gmail app-password/Twilio)
-8. Full UI
+## Built  
+* iCal meteors/eclipse  
+* N2YO ISS passes  
+* Windows toasts (```---notify```)  
+* Calendar export (```---export-ics```)  
+* Config + .env support
+## Next  
+* Report mode (```--report```,```--save-report```) - "newsletter-style" printable output  
+* Heads-up window (```--soon HOURS```)  
+* Task Scheduler helper (```--install-task```)  
+* Starlink (opt-in)
+* Email/SMS delivery (later)
 
 # Contributing  
 Ideas and PRs  welcome-especailly for UX polish, weather integrations, and clean config.  
@@ -127,6 +130,7 @@ MIT
 
 
     
+
 
 
 
