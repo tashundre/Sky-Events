@@ -105,7 +105,8 @@ python notify_test.py
 * **ISS visible passes: ** N2YO ```visualpasses``` endpoint (ISS NORAD 25544)
 * Times converted to your local timezone
 
-# Roadmap (orderd by impact)  
+# Project Status
+Built  
 1. **Heads-up window** ```--soon HOURS``` (show/notify only actionable events)
 2. **Task Schedular helper** ```--install-task``` (daily 7pm run)
 3. **Config + secrets** (```config.toml``` + ```.env```) for coords/defaults and keys
@@ -126,6 +127,7 @@ MIT
 
 
     
+
 
 
 
