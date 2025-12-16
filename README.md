@@ -2,31 +2,30 @@
 **See the sky before it happens.**  
 A Python CLI that fetches upcoming meteor showers, eclipses, and ISS glyovers for your location, with native Windows toast notifications and optional .ics export for your phone's calendar.
 
-## Features
+## Features (Current)
 * Real data sources  
    * Metoer showers & eclispse via In-The-Sky iCal  
    * ISS visible passes via N2YO API (free key)  
 * Timezone-aware output(local times)  
 * WIndows notrifications (winotify) with --notify  
 * Calendar exprt to .ics with --export-ics path  
-* Configurable horizon with --days N  
+* Config file support (config.toml) for defaults
 * Clean CLI, modular code (ready for weather gate, Starlink, email/SMS, config file, scheduler helper)
 
 ## Install  
 ```powershell
 git clone https://github.com/<your-username>/SkyEvents.git
 cd SkyEvents
+
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
 
 **requirements.txt**
 ```powershell
-colorama>=0.4.6
-python-dateutil>=2.9.0
-pytz>=2024.1
-requests>=2.31.0
-ics>=0.7
-winotify>=1.1.0 ; platform_system == "Windows"
+pip install -r requirements.txt
 ```
+
 ## N2YO API Key
 1. Create free account: https://www.n2yo.com/api/
 2. Copy your key, then set it (persists across sessions)
@@ -37,8 +36,19 @@ setx N2YO_API_KEY "YOUR_REAL_KEY"
 ~~~powershell
 echo $env:N2YO_API_KEY
 ~~~
+# Usage (config.toml)
+[location]
+lat = 29.6516
+lon = -82.3248
+alt = 50
 
-# Usage
+[defaults]
+days = 30
+notify = false
+export_ics = ""
+min_elev = 10
+
+# Usage (CLI)
 ~~~powershell
 # Example (Gainesville, Florida)
 python sky_events.py --lat 29.6516 --lon -82.3248 --alt 50 --days 30
@@ -107,4 +117,5 @@ MIT
 
 
     
+
 
