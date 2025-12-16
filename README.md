@@ -37,16 +37,16 @@ setx N2YO_API_KEY "YOUR_REAL_KEY"
 echo $env:N2YO_API_KEY
 ~~~
 # Usage (config.toml)
-[location]
-lat = 29.6516
-lon = -82.3248
-alt = 50
+[location]  
+lat = 29.6516  
+lon = -82.3248  
+alt = 50  
 
 [defaults]
-days = 30
-notify = false
-export_ics = ""
-min_elev = 10
+days = 30  
+notify = false  
+export_ics = ""  
+min_elev = 10  
 
 # Usage (CLI)
 ~~~powershell
@@ -117,5 +117,6 @@ MIT
 
 
     
+
 
 
