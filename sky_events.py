@@ -165,20 +165,52 @@ def export_ics (events, path_str: str):
     tmp.replace(path)
     print(f"[ics] Wrote {path.resolve()}")
 
+def load_config(path: str = "config.toml") -> dict:
+    p = Path(path)
+    if not p.exists():
+        return {}
     
+    raw = p.read_bytes()
+
+    if tomllib:
+        return tomllib.loads(raw.decode("utf-8"))
+    else: 
+        import tomli
+        return tomli.loads(raw.decode("utf-8"))
+
 
 def main():
     # 1) CLI: we keep it explicit-no magic guesses. 
     ap = argparse.ArgumentParser(description="Sky Events - Starlace Build")
-    ap.add_argument("--lat", type=float, required=True, help="Latitude (decimal degrees)")
-    ap.add_argument("--lon", type=float, required=True, help="Longitude (decimal degrees)")
-    ap.add_argument("--alt", type=int, default=50, help="Altitude in meters (rough is fine)")
-    ap.add_argument("--days", type=int, default=14, help="Lookahead horizon in days")
+    ap.add_argument("--config", default="config.toml", help="Path to config.toml")
+    ap.add_argument("--lat", type=float, default=None, help="Latitude (decimal degrees)")
+    ap.add_argument("--lon", type=float, default=None, help="Longitude (decimal degrees)")
+    ap.add_argument("--alt", type=int, default=None, help="Altitude in meters (rough is fine)")
+    ap.add_argument("--days", type=int, default=None, help="Lookahead horizon in days")
     ap.add_argument("--notify", action="store_true",
                     help="Show Windows toast notifications for the next upcoming events")
     ap.add_argument("--export-ics", metavar="PATH",
                     help="Write upcoming events to an iCalendar file (e.g. sky_events.ics)")
     args = ap.parse_args()
+
+    cfg = load_config(args.config)
+
+    loc = cfg.get("location", {})
+    defs = cfg.get("defaults", {})
+
+    # Apply defaults from configs if CLI was not provides
+    args.lat = args.lat if args.lat is not None else loc.get("lat")
+    args.lon = args.lon if args.lon is not None else loc.get("lon")
+    args.alt = args.alt if args.alt is not None else loc.get("alt", 50)
+    args.days = args.days if args.days is not None else defs.get("days", 14)
+
+    # notify is a flag; only enable from config
+    if not args.notify:
+        args.notify = bool(defs.get("notify", False))
+
+    if args.lat is None or args.lon is None:
+        raise SystemExit("Missing lat/lon. Provide --lat/--lon or set them in config.toml under [location].")
+
 
     # 2) Vibes + echo
     banner("Sky Events - Hello SpaceJunkie")
