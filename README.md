@@ -6,7 +6,10 @@ A Python CLI that fetches upcoming meteor showers, eclipses, and ISS glyovers fo
 * Real data sources  
    * Metoer showers & eclispse via In-The-Sky iCal  
    * ISS visible passes via N2YO API (free key)  
-* Timezone-aware output(local times)  
+* Timezone-aware output(local times) 
+* Newsletter-style reports  
+* Printable reports  
+* Downloadable reports     
 * WIndows notrifications (winotify) with --notify  
 * Calendar exprt to .ics with --export-ics path  
 * Config file support (config.toml) for defaults
@@ -57,7 +60,13 @@ CLI flags always override config:
 python sky_events.py --days 10 --notify
 pythin sky_events.py --days 60 --export-ics sky_events.ics
 ```
-
+# Usage (Newsletter & Reports)  
+~~~powershell
+# prints a newletter-style report to the terminal
+python sky_events.py --newsletter --report   
+# Save a newwletter-style refort to a file
+python sky_events.py --newsletter --save-report reports/sky_dispatch.txt  
+~~~
 # Usage (Just CLI Flags)
 ~~~powershell
 # Example (Gainesville, Florida)
@@ -99,7 +108,10 @@ python notify_test.py
 * ```--lat```, ```--lon```, ```--alt``` - your location (decimal degrees, meters)
 * ```--days N``` - how far ahead to look (default 14)
 * ```--notify``` - show Windows toasts for the next 1-2 events
-* ```--export-ics PATH``` - write all upcoming events to a single ```ics```
+* ```--export-ics PATH``` - write all upcoming events to a single ```ics```  
+* ```--newsletter``` - use newsletter-style formatiing  
+* ```--report```  - print report to terminal  
+* ```--save-report PATH``` - save report to a file (.txt or .md)  
 ## Data Sources
 * **Astronomy events (.ics)** in-The-Sky yearly icalendar feed
 * **ISS visible passes: ** N2YO ```visualpasses``` endpoint (ISS NORAD 25544)
@@ -112,8 +124,8 @@ python notify_test.py
 * Windows toasts (```---notify```)  
 * Calendar export (```---export-ics```)  
 * Config + .env support
-## Next  
 * Report mode (```--report```,```--save-report```) - "newsletter-style" printable output  
+## Next  
 * Heads-up window (```--soon HOURS```)  
 * Task Scheduler helper (```--install-task```)  
 * Starlink (opt-in)
