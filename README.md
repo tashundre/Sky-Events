@@ -130,6 +130,7 @@ python notify_test.py
 * Task Scheduler helper (```--install-task```)  
 * Starlink (opt-in)
 * Email/SMS delivery (later)
+* Constellations, planets, star and other things in the sky tracking  
 
 # Contributing  
 Ideas and PRs  welcome-especailly for UX polish, weather integrations, and clean config.  
