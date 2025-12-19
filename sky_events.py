@@ -56,6 +56,24 @@ def now_local() -> dt.datetime:
     """Timezone aware 'now' so our printing is always correct."""
     return dt.datetime.now(tz=DEFAULT_TZ)
 
+def filter_soon(events, hours: int | None):
+    if not hours:
+        return events
+    
+    start_window = now_local()
+    end_window = start_window + dt.timedelta(hours=hours)
+
+    out = []
+    for e in events:
+        s = e.get("start")
+        if not s:
+            continue
+        if start_window <= s <= end_window:
+            out.append(e)
+
+    out.sort(key=lambda e: e["start"])
+    return out
+
 def banner(title: str) -> None:
     """Soft-but-bold console banner."""
     color_init(autoreset=True)
@@ -145,7 +163,7 @@ def export_ics (events, path_str: str):
     path = Path(path_str)
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    cal = Caendar()
+    cal = Calendar()
     for e in events:
         ev = Events()
         title_type = e.get("type", "").strip()
@@ -285,6 +303,8 @@ def main():
     ap.add_argument("--lon", type=float, default=None, help="Longitude (decimal degrees)")
     ap.add_argument("--alt", type=int, default=None, help="Altitude in meters (rough is fine)")
     ap.add_argument("--days", type=int, default=None, help="Lookahead horizon in days")
+    ap.add_argument("--soon", type=int, default=None,
+                    help="Only show/notify evens happening within the next N hours")
     ap.add_argument("--notify", action="store_true",
                     help="Show Windows toast notifications for the next upcoming events")
     ap.add_argument("--export-ics", metavar="PATH",
@@ -315,6 +335,7 @@ def main():
     if args.lat is None or args.lon is None:
         raise SystemExit("Missing lat/lon. Provide --lat/--lon or set them in config.toml under [location].")
 
+    
 
     # 2) Vibes + echo
     banner("Sky Events - Hello SpaceJunkie")
@@ -324,6 +345,8 @@ def main():
     print(f"- Altitude:     {args.alt} m")
     print(f"- Horizon:      {args.days} days")
     print(f"- Now:          {now_local().strftime('%a %b %d, %I:%M %p %Z')}")
+    if args.soon:
+        print(f"- Soon Window: {args.soon} hours")
 
     # --- Astrononmy events ---
     years = {now_local().year, (now_local() + dt.timedelta(days=args.days)).year}
@@ -335,6 +358,14 @@ def main():
         except Exception as ex:
             print(f"[Error fetching {y} feeds: {ex}]")
 
+    # --- ISS Passes ---
+    iss_events = fetch_iss_passes(args.lat, args.lon, args.alt, args.days)
+
+    # --- Soon window filter (apply BEFORE printing) ---
+    if args.soon:
+        all_events = filter_soon(all_events, args.soon)
+        iss_events = filter_soon(iss_events, args.soon)
+
     print("\nAstronomy events coming up:")
     if all_events:
         for e in all_events:
@@ -343,14 +374,12 @@ def main():
     else:
         print("- None found in range")
 
-    # --- ISS Passes ---
-    iss_events = fetch_iss_passes(args.lat, args.lon, args.alt, args.days)
     print("\nISS passes:")
     if iss_events:
         for e in iss_events:
             start = e["start"].strftime("%a %b %d, %I:%M %p %Z")
             end = e["end"].strftime("%I:%M %p %Z")
-            extra = f" (mag {e['mag']})" if e.get('mag') is not None else ""
+            extra = f" (mag {e['mag']})" if e.get("mag") is not None else ""
             print(f"- {e['name']} - {start} -> {end}{extra}")
     else:
         print("- None found or N2YO_API_KEY not set.")
