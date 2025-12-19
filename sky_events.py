@@ -42,6 +42,7 @@ except Exception:
 N2YO_BASE = "https://api.n2yo.com/rest/v1/satellite/visualpasses"
 ISS_NORAD = 25544
 
+DEFAULT_SOON_HOURS = 48
 # --- Settings: adjust if you ever move timezones ---
 DEFAULT_TZ = tz.gettz("America/New_York")
 # Source In-The-Sky iCal feed of astronomy events
@@ -328,14 +329,16 @@ def main():
     args.alt = args.alt if args.alt is not None else loc.get("alt", 50)
     args.days = args.days if args.days is not None else defs.get("days", 14)
 
+    # If notifications are eanbled, default to an actionale window
+    if args.notify and args.soon is None:
+        args.soon = int(defs.get("soon_hours", DEFAULT_SOON_HOURS))
+
     # notify is a flag; only enable from config
     if not args.notify:
         args.notify = bool(defs.get("notify", False))
 
     if args.lat is None or args.lon is None:
         raise SystemExit("Missing lat/lon. Provide --lat/--lon or set them in config.toml under [location].")
-
-    
 
     # 2) Vibes + echo
     banner("Sky Events - Hello SpaceJunkie")
@@ -366,6 +369,10 @@ def main():
         all_events = filter_soon(all_events, args.soon)
         iss_events = filter_soon(iss_events, args.soon)
 
+    # Merge and sort for any downstream actions (notify/export/etc.)
+    combined = (all_events + iss_events)
+    combined.sort(key=lambda e: e["start"])
+
     print("\nAstronomy events coming up:")
     if all_events:
         for e in all_events:
@@ -386,19 +393,19 @@ def main():
 
      # --- Optional notifications ---
     if args.notify:
-        upcoming = (all_events + iss_events)
-        upcoming.sort(key=lambda e: e["start"])
-        for e in upcoming[:2]:
-            title = "Sky Event"
-            when = e["start"].strftime("%a %b %d, %I:%M %p %Z")
-            body = f"{e['type']}: {e['name']} at {when}"
-            # debug print so you can see its being calles
-            print(f"[notify] {body}")
-            notify(title, body)
+        if not combined:
+            print("[notify] Nothing to notify in the current window.")
+        else:
+            for e in combined[:2]:
+                title = "Sky Event"
+                when = e["start"].strftime("%a %b %d, %I:%M %p %Z")
+                body = f"{e['type']}: {e['name']} at {when}"
+                print(f"[notify] {body}")
+                notify(title, body)
 
-    # Merge and sort for any downstream actions (notify/export/etc.)
-    combined = (all_events + iss_events)
-    combined.sort(key=lambda e: e["start"])
+    if args.soon and not combined:
+        print(f"\nNo actionable events in the next {args.soon} hours.")
+        print("Tip: try a wider window like --soon 168 (7 days).")
 
     # Report/Newsletter mode
     if args.report or args.save_report:
