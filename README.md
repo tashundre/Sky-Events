@@ -131,7 +131,7 @@ python notify_test.py
 * Starlink (opt-in)
 * Email/SMS delivery (later)
 * Constellations, planets, star and other things in the sky tracking
-* SkyEvents Newsletter — Sections
+* SkyEvents Newsletter — Sections  
   *Into the Sky - Automated sky-event tracking digest — meteor showers, comets, asteroids, ISS passes, planetary alignments (Starlink launches/orbit tracking later), for a customizable lookahead window (e.g. 7–14 days).
   *Moonlit Musings - Personal thoughts, theories, and reflections on space/astrophysics.
   *Stardust Notes - Space industry news and discoveries — recent and past. 
