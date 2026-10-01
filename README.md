@@ -78,7 +78,7 @@ python sky_events.py --lat 29.6516 --lon -82.3248 --alt 50 --days 10 --notify
 ~~~
 Export to .ics for your calendar  
 ~~~powershell
-python sky_events.py --lat 29.6516 --lon -82.3248 --alt 50 --days 10 --export-ics
+python sky_events.py --export-ics sky_events.ics
 ~~~  
 
 ## Windows Notifications (winotify)  
