@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 """
-Sky Events Notifier - Starlace Build (Piece 1)
-Goal Today: a tiny CLI that prints a pastel banner and echoes your inputs.
 """
 
 from __future__ import annotations
