@@ -7,4 +7,5 @@ alt = 50
 days = 30
 notify = false
 min_elev = 10
+soon_hours = 48
 export_ics = ""
