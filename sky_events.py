@@ -14,6 +14,9 @@ import pytz
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import smtplib
+import ssl
+import email.message import EmailMessage
 
 # toml support, older versions use tomli
 try: 
