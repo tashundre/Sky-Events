@@ -124,17 +124,18 @@ python notify_test.py
 * Windows toasts (```---notify```)  
 * Calendar export (```---export-ics```)  
 * Config + .env support
-* Report mode (```--report```,```--save-report```) - "newsletter-style" printable output  
+* Report mode (```--report```,```--save-report```) - "newsletter-style" printable output
+*SkyEvents Newsletter — Sections  
+  * Into the Sky - Automated sky-event tracking digest — meteor showers, comets, asteroids, ISS passes, planetary alignments (Starlink launches/orbit tracking later), for a customizable lookahead window (e.g. 7–14 days).  
+  * Stardust Notes - Space industry news and discoveries — recent and past.  
+  * Moonlit Musings - Personal thoughts, theories, and reflections on space/astrophysics. 
 ## Next  
 * Heads-up window (```--soon HOURS```)  
 * Task Scheduler helper (```--install-task```)  
 * Starlink (opt-in)
-* Email/SMS delivery (later)
+* (Inprogress)Email/SMS delivery (later)
 * Constellations, planets, star and other things in the sky tracking
-* (In-progress) SkyEvents Newsletter — Sections  
-  * Into the Sky - Automated sky-event tracking digest — meteor showers, comets, asteroids, ISS passes, planetary alignments (Starlink launches/orbit tracking later), for a customizable lookahead window (e.g. 7–14 days).  
-  * Stardust Notes - Space industry news and discoveries — recent and past.  
-  * Moonlit Musings - Personal thoughts, theories, and reflections on space/astrophysics.  
+ 
     
 
 # Contributing  
